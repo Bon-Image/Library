@@ -32,7 +32,7 @@ const closeButton = document.querySelector("#add + button")
 
 
 // Initialize display
-display(myLibrary);
+displayBooks(myLibrary);
 
 
 // -------------------------------------------------- Display  -------------------------------------------------- //
@@ -40,7 +40,7 @@ display(myLibrary);
 
 // Display all books on the page 
 // ArrayOfBooks -> None
-function display(myLibrary) {
+function displayBooks(myLibrary) {
     for (const book of myLibrary) {
         if (!duplicateDetector(book)) {
             library.appendChild(createBookCard(book));
@@ -49,7 +49,7 @@ function display(myLibrary) {
     }
 }
 
-// Creats HTML skleton for each book, ready to be styled as a cardboard. 
+// Creats HTML skleton for each book. 
 // Book -> div 
 function createBookCard(book) {
     const bookCover = document.createElement("div");  // This is the book cover, has all the info written on it. 
@@ -85,12 +85,12 @@ form.addEventListener("submit", (event) => {
     event.preventDefault();
     const formElements = form.elements; // Gathers all the form elements 
     infoExtractor(formElements); // Extracts book's information 
-    display(myLibrary);
+    displayBooks(myLibrary);
     form.reset();
     dialog.close();
 })
 
-// Extracts information like title, author and etc. , and saves them into an array. 
+// Extract Book information from form elements.
 // ArrayOfElement -> ArrayOfString
 function infoExtractor(elements) {
 
@@ -103,7 +103,7 @@ function infoExtractor(elements) {
     addBookToLibrary(bookInfo) // Adds the new book into the libraray. 
 }
 
-// Adds Book object into myLibrary.
+// Adds a new Book (object) into myLibrary.
 // Book -> None
 function addBookToLibrary(newBook) {
 
@@ -112,7 +112,7 @@ function addBookToLibrary(newBook) {
 
 }
 
-
+// Close the dialog. 
 closeButton.addEventListener("click", () => {
     dialog.close();
 });
@@ -120,7 +120,7 @@ closeButton.addEventListener("click", () => {
 
 // -------------------------------------------------- Internal functions  -------------------------------------------------- //
 
-
+// Check if a book already exists in myLibrary by comparing properties
 function duplicateDetector(newBook) {
     return displayedBooks.some(book => book.title === newBook.title && book.author === newBook.author &&
         book.pages === newBook.pages
