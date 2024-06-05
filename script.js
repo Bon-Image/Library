@@ -42,7 +42,7 @@ displayBooks(myLibrary);
 // ArrayOfBooks -> None
 function displayBooks(myLibrary) {
     for (const book of myLibrary) {
-        if (!duplicateDetector(book)) {
+        if (!isDuplicate(book)) {
             library.appendChild(createBookCard(book));
             displayedBooks.push(book);
         }
@@ -84,7 +84,7 @@ showModalButton.addEventListener("click", () => {
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const formElements = form.elements; // Gathers all the form elements 
-    infoExtractor(formElements); // Extracts book's information 
+    extractBookInfo(formElements); // Extracts book's information 
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
@@ -92,7 +92,7 @@ form.addEventListener("submit", (event) => {
 
 // Extract Book information from form elements.
 // ArrayOfElement -> ArrayOfString
-function infoExtractor(elements) {
+function extractBookInfo(elements) {
 
     let bookInfo = [];
     for (let i = 0; i < elements.length; i++) {
@@ -121,7 +121,7 @@ closeButton.addEventListener("click", () => {
 // -------------------------------------------------- Internal functions  -------------------------------------------------- //
 
 // Check if a book already exists in myLibrary by comparing properties
-function duplicateDetector(newBook) {
+function isDuplicate(newBook) {
     return displayedBooks.some(book => book.title === newBook.title && book.author === newBook.author &&
         book.pages === newBook.pages
     );
