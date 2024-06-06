@@ -1,23 +1,36 @@
+// Function Design Process and Guidelines
+// 1st line: Purpose 
+// 2nd line: Signature (Type input1 Type input2 -> Type output)
+// 3rd line: Functional examples 
+// 4th line: Extra explanations (optional)
+
 // -------------------------------------------------- Constructor - Initializers - Import Variables -------------------------------------------------- //
 
 
 // Book Constructor
-// String String Integer String -> Book 
+// String String Integer String -> Book
+// "Bauhaus"  "Magdalena Droost"  356  "read" -> Book
 // Status field takes two values: read and not-read 
 function Book(title, author, pages, status) {
+
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.status = status;
+
 }
 
-
+// Modifies the status of a Book
+//  -> void 
+// book.changeBookStatus();
 Book.prototype.changeBookStatus = function () {
+
     if (this.status === "read") {
         this.status = "not-read";
     } else {
         this.status = "read";
     }
+
 };
 
 
@@ -28,16 +41,14 @@ const myLibrary = [
     new Book("Harry Potter", "J.K. Rolling", 556, "read")
 ];
 
-// Fetching Data From HTML
 
+// Fetching Data From HTML
 const library = document.querySelector(".library");
 const dialog = document.querySelector("#dialog");
 const showModalButton = document.getElementById("showModal");
 const form = document.getElementById("info");
 const addButton = document.querySelector("#add");
-const closeButton = document.querySelector("#add + button"); 
-
-
+const closeButton = document.querySelector("#add + button");
 
 
 // Initialize display
@@ -48,30 +59,35 @@ displayBooks(myLibrary);
 
 
 // Display all books on the page 
-// ArrayOfBooks -> None
+// ArrayOfBooks -> void
+// [new Book(... 1), new Book(... 2), new Book(... 3) ... new Book(... 3)] -> void
 function displayBooks(myLibrary) {
+
     library.innerHTML = '';  // Clear existing content
-    myLibrary.forEach (book => { 
-        library.appendChild(createBookCard(book)); 
-    }) 
+    myLibrary.forEach(book => {
+        library.appendChild(createBookCard(book));
+    })
+
 }
+
 
 // Creats HTML skleton for each book. 
 // Book -> div 
+// new Book("Bauhaus", "Magdalena Droost", 356, "read") -> void
 function createBookCard(book) {
 
-    const bookCover = document.createElement("div");  // This is the book cover, has all the info written on it. 
+    // This is the book cover, has all the info written on it.
+    const bookCover = document.createElement("div");
     bookCover.className = "book-info";
-
+    // Delete button to remove a Book from the library
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete";
     deleteButton.textContent = "Remove";
     bookCover.appendChild(deleteButton);
-
+    // A toggle switch to change the status of a Book to read/not-read
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
     bookCover.appendChild(statusToggle);
-    
     //Creates a specific div for every property of the book, title, author ... .
     Object.keys(book).forEach(key => {
 
@@ -81,19 +97,19 @@ function createBookCard(book) {
         bookCover.appendChild(property);
 
     });
-
-
     // Handle Book removal
     deleteButton.addEventListener("click", () => {
+
         removeBook(book);
         bookCover.remove();
-    });
 
+    });
     statusToggle.addEventListener("click", () => {
+
         book.changeBookStatus();
         displayBooks(myLibrary);
-    })
 
+    })
     return bookCover;
 
 }
@@ -104,7 +120,9 @@ function createBookCard(book) {
 
 // Show the dialog to add a new book
 showModalButton.addEventListener("click", () => {
+
     dialog.showModal();
+
 });
 
 
@@ -117,19 +135,21 @@ form.addEventListener("submit", (event) => {
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
+
 })
 
 // Extract Book information from form elements.
 // ArrayOfElement -> ArrayOfString
+// 
 function extractBookInfo(elements) {
-
+    console.log(elements); 
     let bookInfo = [];
     for (let i = 0; i < elements.length; i++) {
         if (elements[i].tagName != "BUTTON") { // we don't need infomation about sumbit and close buttons. 
             bookInfo.push(elements[i].value);
         }
     }
-    let [title, author, pages, status] = bookInfo; 
+    let [title, author, pages, status] = bookInfo;
     addBookToLibrary(new Book(title, author, pages, status));  // Adds the new book into the libraray. 
 }
 
@@ -180,7 +200,3 @@ function findIndexOfBook(book) {
         b.status === book.status);
     return index;
 };
-
-
-// Changes Book status 
-// Book -> Book 
