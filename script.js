@@ -59,12 +59,18 @@ function createBookCard(book) {
     deleteButton.textContent = "Remove";
     //Creates a specific div for every property of the book, title, author ... .
     for (const key in book) {
-        const property = document.createElement("div")
+        const property = document.createElement("div");
         property.className = key;
         property.textContent = `${book[key]}`;
         bookCover.appendChild(property);
     }
     bookCover.appendChild(deleteButton);
+
+    // Handle Book removal
+    deleteButton.addEventListener("click", () => {
+        removeBook(book);
+        bookCover.remove(); 
+    });
 
 
     return bookCover;
@@ -118,6 +124,7 @@ closeButton.addEventListener("click", () => {
 });
 
 
+
 // -------------------------------------------------- Internal functions  -------------------------------------------------- //
 
 // Check if a book already exists in myLibrary by comparing properties
@@ -126,3 +133,28 @@ function isDuplicate(newBook) {
         book.pages === newBook.pages
     );
 }
+
+// Remove a Book 
+// 
+function removeBook(book) {
+    const bookIndex = findIndexOfBook(book);
+    if (bookIndex > -1) {
+        myLibrary.splice(bookIndex, 1);
+        displayedBooks.splice(bookIndex, 1);
+        displayBooks(myLibrary);
+    }
+    console.log(myLibrary); 
+
+
+}
+
+// Find a Book in MyLibrary 
+// Book -> Integer 
+function findIndexOfBook(book) {
+
+        const index = myLibrary.findIndex(b => b.title === book.title && 
+            b.author === b.author && 
+            b.pages === book.pages &&
+            b.status === book.status);
+            return index; 
+    };
