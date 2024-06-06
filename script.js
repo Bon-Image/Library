@@ -22,7 +22,7 @@ function Book(title, author, pages, status) {
 
 // Modifies the status of a Book
 //  -> void 
-// book.changeBookStatus();
+// Book.changeBookStatus()
 Book.prototype.changeBookStatus = function () {
 
     if (this.status === "read") {
@@ -71,12 +71,12 @@ function displayBooks(myLibrary) {
 }
 
 
-// Creats HTML skleton for each book. 
+// Creats HTML skleton for each book
 // Book -> div 
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") -> void
 function createBookCard(book) {
 
-    // This is the book cover, has all the info written on it.
+    // This is the book cover, has all the info written on it
     const bookCover = document.createElement("div");
     bookCover.className = "book-info";
     // Delete button to remove a Book from the library
@@ -88,7 +88,7 @@ function createBookCard(book) {
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
     bookCover.appendChild(statusToggle);
-    //Creates a specific div for every property of the book, title, author ... .
+    // Creates a specific div for every property of the book, title, author ... 
     Object.keys(book).forEach(key => {
 
         const property = document.createElement("div");
@@ -131,67 +131,83 @@ form.addEventListener("submit", (event) => {
 
     event.preventDefault();
     const formElements = form.elements; // Gathers all the form elements 
-    extractBookInfo(formElements); // Extracts book's information 
+    const newBook = extractBookInfo(formElements); // Extracts book's information 
+    addBookToLibrary(newBook); 
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
 
 })
 
-// Extract Book information from form elements.
+
+// Extract Book information from form elements
 // ArrayOfElement -> ArrayOfString
-// 
+// [input#title, input#author, input#pages, etc.] -> ["Bauhaus", "Magdalena Droost", 356, "read"]
 function extractBookInfo(elements) {
+
     console.log(elements); 
     let bookInfo = [];
     for (let i = 0; i < elements.length; i++) {
-        if (elements[i].tagName != "BUTTON") { // we don't need infomation about sumbit and close buttons. 
+        if (elements[i].tagName != "BUTTON") { // we don't need infomation about sumbit and close buttons 
             bookInfo.push(elements[i].value);
         }
     }
-    let [title, author, pages, status] = bookInfo;
-    addBookToLibrary(new Book(title, author, pages, status));  // Adds the new book into the libraray. 
+    return new Book(bookInfo[0], bookInfo[1], bookInfo[2], bookInfo[3]);
+
 }
 
-// Adds a new Book (object) into myLibrary.
-// ArrayOfString -> None
+
+// Adds a new Book (object) into myLibrary
+// ArrayOfString -> void
+// ["Bauhaus", "Magdalena Droost", 356, "read"] -> void
 function addBookToLibrary(newBook) {
 
     if (!isDuplicate(newBook)) {
         myLibrary.push(newBook);
     }
+
 }
 
-// Close the dialog. 
+// Close the dialog
 closeButton.addEventListener("click", () => {
+
     dialog.close();
+
 });
 
 
 
 // -------------------------------------------------- Internal functions  -------------------------------------------------- //
 
+
 // Check if a book already exists in myLibrary by comparing properties
+// Book -> Boolean 
+// new Book("Bauhaus", "Magdalena Droost", 356, "read") -> false
 function isDuplicate(newBook) {
+
     return myLibrary.some(book => book.title === newBook.title && book.author === newBook.author &&
-        book.pages === newBook.pages
-    );
+        book.pages === newBook.pages && book.status === newBook.status);
+
 }
 
+
 // Remove a Book 
-// 
+// Book -> void
+// new Book("Bauhaus", "Magdalena Droost", 356, "read") -> void
 function removeBook(book) {
+
     const bookIndex = findIndexOfBook(book);
     if (bookIndex > -1) {
         myLibrary.splice(bookIndex, 1);
         displayBooks(myLibrary);
     }
 
-
 }
 
-// Find a Book in MyLibrary 
+
+// Find the index of a  Book in myLibrary 
 // Book -> Integer 
+// new Book("Bauhaus", "Magdalena Droost", 356, "read") -> 1 
 function findIndexOfBook(book) {
 
     const index = myLibrary.findIndex(b => b.title === book.title &&
@@ -199,4 +215,5 @@ function findIndexOfBook(book) {
         b.pages === book.pages &&
         b.status === book.status);
     return index;
+
 };
