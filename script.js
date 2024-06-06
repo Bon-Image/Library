@@ -14,11 +14,11 @@ function Book(title, author, pages, status) {
 
 Book.prototype.changeBookStatus = function () {
     if (this.status === "read") {
-        this.status = "not-read"; 
+        this.status = "not-read";
     } else {
-        this.status = "read"; 
+        this.status = "read";
     }
-}; 
+};
 
 
 // Sample Library Data
@@ -32,10 +32,10 @@ const myLibrary = [
 
 const library = document.querySelector(".library");
 const dialog = document.querySelector("#dialog");
-const form = document.getElementById("info");
 const showModalButton = document.getElementById("showModal");
+const form = document.getElementById("info");
 const addButton = document.querySelector("#add");
-const closeButton = document.querySelector("#add + button")
+const closeButton = document.querySelector("#add + button"); 
 
 
 
@@ -50,44 +50,52 @@ displayBooks(myLibrary);
 // Display all books on the page 
 // ArrayOfBooks -> None
 function displayBooks(myLibrary) {
-    for (const book of myLibrary) {
-            library.appendChild(createBookCard(book));
-    }
+    library.innerHTML = '';  // Clear existing content
+    myLibrary.forEach (book => { 
+        library.appendChild(createBookCard(book)); 
+    }) 
 }
 
 // Creats HTML skleton for each book. 
 // Book -> div 
 function createBookCard(book) {
+
     const bookCover = document.createElement("div");  // This is the book cover, has all the info written on it. 
     bookCover.className = "book-info";
+
     const deleteButton = document.createElement("button");
-    const statusToggle = document.createElement("input"); 
-    statusToggle.type = "checkbox"; 
     deleteButton.className = "delete";
     deleteButton.textContent = "Remove";
+    bookCover.appendChild(deleteButton);
+
+    const statusToggle = document.createElement("input");
+    statusToggle.type = "checkbox";
+    bookCover.appendChild(statusToggle);
+    
     //Creates a specific div for every property of the book, title, author ... .
     Object.keys(book).forEach(key => {
+
         const property = document.createElement("div");
         property.className = key;
         property.textContent = `${book[key]}`;
         bookCover.appendChild(property);
+
     });
-    bookCover.appendChild(deleteButton);
-    bookCover.appendChild(statusToggle); 
+
 
     // Handle Book removal
     deleteButton.addEventListener("click", () => {
         removeBook(book);
-        bookCover.remove(); 
+        bookCover.remove();
     });
 
     statusToggle.addEventListener("click", () => {
-        book.changeBookStatus(); 
-        displayBooks(myLibrary); 
+        book.changeBookStatus();
+        displayBooks(myLibrary);
     })
 
-
     return bookCover;
+
 }
 
 
@@ -102,6 +110,7 @@ showModalButton.addEventListener("click", () => {
 
 // Handle form submission
 form.addEventListener("submit", (event) => {
+
     event.preventDefault();
     const formElements = form.elements; // Gathers all the form elements 
     extractBookInfo(formElements); // Extracts book's information 
@@ -120,16 +129,16 @@ function extractBookInfo(elements) {
             bookInfo.push(elements[i].value);
         }
     }
-    addBookToLibrary(bookInfo) // Adds the new book into the libraray. 
+    let [title, author, pages, status] = bookInfo; 
+    addBookToLibrary(new Book(title, author, pages, status));  // Adds the new book into the libraray. 
 }
 
 // Adds a new Book (object) into myLibrary.
-// Book -> None
+// ArrayOfString -> None
 function addBookToLibrary(newBook) {
 
-    let [title, author, pages, status] = newBook;
-    if (!isDuplicate(newBook)){
-    myLibrary.push(new Book(title, author, pages, status));
+    if (!isDuplicate(newBook)) {
+        myLibrary.push(newBook);
     }
 }
 
@@ -155,7 +164,6 @@ function removeBook(book) {
     const bookIndex = findIndexOfBook(book);
     if (bookIndex > -1) {
         myLibrary.splice(bookIndex, 1);
-        displayedBooks.splice(bookIndex, 1);
         displayBooks(myLibrary);
     }
 
@@ -166,12 +174,12 @@ function removeBook(book) {
 // Book -> Integer 
 function findIndexOfBook(book) {
 
-        const index = myLibrary.findIndex(b => b.title === book.title && 
-            b.author === b.author && 
-            b.pages === book.pages &&
-            b.status === book.status);
-            return index; 
-    };
+    const index = myLibrary.findIndex(b => b.title === book.title &&
+        b.author === b.author &&
+        b.pages === book.pages &&
+        b.status === book.status);
+    return index;
+};
 
 
 // Changes Book status 
