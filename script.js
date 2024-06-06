@@ -11,16 +11,25 @@ function Book(title, author, pages, status) {
     this.status = status;
 }
 
+
+Book.prototype.changeBookStatus = function () {
+    if (this.status === "read") {
+        this.status = "not-read"; 
+    } else {
+        this.status = "read"; 
+    }
+}; 
+
+
 // Sample Library Data
 const myLibrary = [
-    { title: "Bauhaus", author: "Magdalena Droost", pages: 356, status: "read" },
-    { title: "Dieter Rams", author: "Klaus Klemp", pages: 322, status: "not-read" },
-    { title: "Harry Potter", author: "J.K. Rolling", pages: 556, status: "read" }
+    new Book("Bauhaus", "Magdalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
+    new Book("Harry Potter", "J.K. Rolling", 556, "read")
 ];
 
 // Fetching Data From HTML
 
-let displayedBooks = [];
 const library = document.querySelector(".library");
 const dialog = document.querySelector("#dialog");
 const form = document.getElementById("info");
@@ -42,10 +51,7 @@ displayBooks(myLibrary);
 // ArrayOfBooks -> None
 function displayBooks(myLibrary) {
     for (const book of myLibrary) {
-        if (!isDuplicate(book)) {
             library.appendChild(createBookCard(book));
-            displayedBooks.push(book);
-        }
     }
 }
 
@@ -54,23 +60,31 @@ function displayBooks(myLibrary) {
 function createBookCard(book) {
     const bookCover = document.createElement("div");  // This is the book cover, has all the info written on it. 
     bookCover.className = "book-info";
-    deleteButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
+    const statusToggle = document.createElement("input"); 
+    statusToggle.type = "checkbox"; 
     deleteButton.className = "delete";
     deleteButton.textContent = "Remove";
     //Creates a specific div for every property of the book, title, author ... .
-    for (const key in book) {
+    Object.keys(book).forEach(key => {
         const property = document.createElement("div");
         property.className = key;
         property.textContent = `${book[key]}`;
         bookCover.appendChild(property);
-    }
+    });
     bookCover.appendChild(deleteButton);
+    bookCover.appendChild(statusToggle); 
 
     // Handle Book removal
     deleteButton.addEventListener("click", () => {
         removeBook(book);
         bookCover.remove(); 
     });
+
+    statusToggle.addEventListener("click", () => {
+        book.changeBookStatus(); 
+        displayBooks(myLibrary); 
+    })
 
 
     return bookCover;
@@ -114,8 +128,9 @@ function extractBookInfo(elements) {
 function addBookToLibrary(newBook) {
 
     let [title, author, pages, status] = newBook;
+    if (!isDuplicate(newBook)){
     myLibrary.push(new Book(title, author, pages, status));
-
+    }
 }
 
 // Close the dialog. 
@@ -129,7 +144,7 @@ closeButton.addEventListener("click", () => {
 
 // Check if a book already exists in myLibrary by comparing properties
 function isDuplicate(newBook) {
-    return displayedBooks.some(book => book.title === newBook.title && book.author === newBook.author &&
+    return myLibrary.some(book => book.title === newBook.title && book.author === newBook.author &&
         book.pages === newBook.pages
     );
 }
@@ -143,7 +158,6 @@ function removeBook(book) {
         displayedBooks.splice(bookIndex, 1);
         displayBooks(myLibrary);
     }
-    console.log(myLibrary); 
 
 
 }
@@ -158,3 +172,7 @@ function findIndexOfBook(book) {
             b.status === book.status);
             return index; 
     };
+
+
+// Changes Book status 
+// Book -> Book 
