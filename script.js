@@ -106,7 +106,6 @@ function createBookCard(book) {
         bookCover.style.opacity = "0.1";
         deleteButton.classList.remove("hidden"); 
         statusToggle.classList.remove("hidden");
-        deleteButton.style.opacity = "1";   
     })
     // Handle Book removal
     deleteButton.addEventListener("click", () => {

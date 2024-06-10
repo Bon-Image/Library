@@ -9,14 +9,19 @@
 
 }
 
-.library{
+.main-content-area {
     height: 100vh;
+    display: grid;
+    background-color:#171717;
+    grid-template-columns: 1fr 1fr;
+}
+
+.library{
     display: grid;
     grid-template-columns: repeat(auto-fit, 50px);
     grid-auto-rows: 400px;
     gap: var(--gap);
     padding: calc(4 * var(--gap));
-    background-color:#171717;
 
 }
 
@@ -33,3 +38,4 @@
 .hidden {
     display: none;
 }
+
