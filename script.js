@@ -101,6 +101,13 @@ function createBookCard(book) {
         bookCover.appendChild(property);
 
     });
+    //displays delete and status-toggle buttons
+    bookCover.addEventListener("click", ()=> {
+        bookCover.style.opacity = "0.1";
+        deleteButton.classList.remove("hidden"); 
+        statusToggle.classList.remove("hidden");
+        deleteButton.style.opacity = "1";   
+    })
     // Handle Book removal
     deleteButton.addEventListener("click", () => {
 

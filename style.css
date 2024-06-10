@@ -29,3 +29,7 @@
     background-color: #164e63;
     writing-mode: vertical-rl;
 }
+
+.hidden {
+    display: none;
+}
