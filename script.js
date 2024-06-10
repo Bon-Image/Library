@@ -38,7 +38,10 @@ Book.prototype.changeBookStatus = function () {
 const myLibrary = [
     new Book("Bauhaus", "Magdalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
-    new Book("Harry Potter", "J.K. Rolling", 556, "read")
+    new Book("Harry Potter", "J.K. Rolling", 556, "read"),
+    new Book("Bauhau", "Magalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klmp", 322, "not-read"),
+    new Book("HarryPotter", "J.K. Rlling", 556, "read")
 ];
 
 

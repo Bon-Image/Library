@@ -1,0 +1,31 @@
+ * {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --gap: 20px;
+    --book-text-color:#cbd5e1; 
+
+}
+
+.library{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 50px);
+    grid-auto-rows: 400px;
+    gap: var(--gap);
+    padding: calc(4 * var(--gap));
+    background-color:#171717;
+
+}
+
+.book-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--book-text-color);
+    background-color: #164e63;
+    writing-mode: vertical-rl;
+}
