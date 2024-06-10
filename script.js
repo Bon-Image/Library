@@ -84,12 +84,13 @@ function createBookCard(book) {
     bookCover.className = "book-info";
     // Delete button to remove a Book from the library
     const deleteButton = document.createElement("button");
-    deleteButton.className = "delete";
+    deleteButton.classList.add("delete", "hidden");
     deleteButton.textContent = "Remove";
     bookCover.appendChild(deleteButton);
     // A toggle switch to change the status of a Book to read/not-read
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
+    statusToggle.classList.add("hidden"); 
     bookCover.appendChild(statusToggle);
     // Creates a specific div for every property of the book, title, author ... 
     Object.keys(book).forEach(key => {
