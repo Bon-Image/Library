@@ -46,6 +46,7 @@ const myLibrary = [
 
 
 // Fetching Data From HTML
+const mainContentArea = document.querySelector(".main-content-area"); 
 const library = document.querySelector(".library");
 const dialog = document.querySelector("#dialog");
 const showModalButton = document.getElementById("showModal");
@@ -68,7 +69,7 @@ function displayBooks(myLibrary) {
 
     library.innerHTML = '';  // Clear existing content
     myLibrary.forEach(book => {
-        library.appendChild(createBookCard(book));
+        library.appendChild(createBookSpine(book));
     })
 
 }
@@ -77,41 +78,61 @@ function displayBooks(myLibrary) {
 // Creats HTML skleton for each book
 // Book -> div 
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") -> void
-function createBookCard(book) {
+function createBookSpine(book) {
 
-    // This is the book cover, has all the info written on it
-    const bookCover = document.createElement("div");
-    bookCover.className = "book-info";
-    // Delete button to remove a Book from the library
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete", "hidden");
-    deleteButton.textContent = "Remove";
-    bookCover.appendChild(deleteButton);
-    // A toggle switch to change the status of a Book to read/not-read
-    const statusToggle = document.createElement("input");
-    statusToggle.type = "checkbox";
-    statusToggle.classList.add("hidden"); 
-    bookCover.appendChild(statusToggle);
+    // This is the book spine, has all the info written on it
+    const bookSpine = document.createElement("div");
+    bookSpine.classList.add ("book-info", "spine");
     // Creates a specific div for every property of the book, title, author ... 
     Object.keys(book).forEach(key => {
 
         const property = document.createElement("div");
         property.className = key;
         property.textContent = `${book[key]}`;
-        bookCover.appendChild(property);
+        bookSpine.appendChild(property);
 
     });
     //displays delete and status-toggle buttons
-    bookCover.addEventListener("click", ()=> {
-        bookCover.style.opacity = "0.1";
-        deleteButton.classList.remove("hidden"); 
-        statusToggle.classList.remove("hidden");
+    bookSpine.addEventListener("click", () => {
+        bookSpine.style.opacity = "0.1";
+        createBookCover(book); 
+
     })
+    return bookSpine;
+
+}
+
+// Creats a cover for a Book.
+// Book div -> div
+// new Book("Bauhaus", "Magdalena Droost", 356, "read") div -> void
+// Almost the same function as the createBookSpine but creates a full cover to display
+function createBookCover(book) {
+
+    // This is the book cover, has exactly the same information plus a button and a toggle. 
+    const bookCover = document.createElement("div");
+    bookCover.classList.add("cover"); 
+    //Fetch the Book info
+    const bookInfoOriginal = document.querySelector(".book-info"); 
+    // Deep-clone the div 
+    const bookInfoClone = bookInfoOriginal.cloneNode(true);
+    bookInfoClone.classList.remove(".book-info"); 
+    // Now the cover has the same information as the spine. 
+    bookCover.appendChild(bookInfoClone); 
+    // Delete button to remove a Book from the library
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete");
+    deleteButton.textContent = "Remove";
+    bookCover.appendChild(deleteButton);
+    // A toggle switch to change the status of a Book to read/not-read
+    const statusToggle = document.createElement("input");
+    statusToggle.type = "checkbox";
+    statusToggle.classList.add("hidden");
+    bookCover.appendChild(statusToggle);
     // Handle Book removal
     deleteButton.addEventListener("click", () => {
 
         removeBook(book);
-        bookCover.remove();
+        bookSpine.remove();
 
     });
     statusToggle.addEventListener("click", () => {
@@ -120,8 +141,8 @@ function createBookCard(book) {
         displayBooks(myLibrary);
 
     })
-    return bookCover;
-
+    mainContentArea.appendChild(bookCover); 
+    
 }
 
 
@@ -142,7 +163,7 @@ form.addEventListener("submit", (event) => {
     event.preventDefault();
     const formElements = form.elements; // Gathers all the form elements 
     const newBook = extractBookInfo(formElements); // Extracts book's information 
-    addBookToLibrary(newBook); 
+    addBookToLibrary(newBook);
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
@@ -155,7 +176,7 @@ form.addEventListener("submit", (event) => {
 // [input#title, input#author, input#pages, etc.] -> ["Bauhaus", "Magdalena Droost", 356, "read"]
 function extractBookInfo(elements) {
 
-    console.log(elements); 
+    console.log(elements);
     let bookInfo = [];
     for (let i = 0; i < elements.length; i++) {
         if (elements[i].tagName != "BUTTON") { // we don't need infomation about sumbit and close buttons 

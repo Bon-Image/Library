@@ -25,7 +25,13 @@
 
 }
 
-.book-info {
+.cover {
+    background-color: aqua;
+    height: 50vh;
+    
+}
+
+.book-info{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -35,7 +41,5 @@
     writing-mode: vertical-rl;
 }
 
-.hidden {
-    display: none;
-}
+
 
