@@ -120,7 +120,6 @@ function createBookCover(bookSpine, thisBook) {
     const bookInfoClone = bookInfoOriginal.cloneNode(true);
 
     removeStyle(bookInfoClone); 
-    //bookInfoClone.classList.remove("book-info-spine");
     bookInfoClone.classList.add("book-info-cover");
 
     bookCover.appendChild(bookInfoClone);
@@ -139,6 +138,10 @@ function createBookCover(bookSpine, thisBook) {
     statusToggle.classList.add("hidden");
     controlPanel.appendChild(statusToggle);
 
+    const closeCover = document.createElement("button"); 
+    closeCover.textContent = "Close Cover"; 
+    controlPanel.appendChild(closeCover); 
+
     deleteButton.addEventListener("click", () => {
 
         removeBook(thisBook);
@@ -151,6 +154,10 @@ function createBookCover(bookSpine, thisBook) {
         thisBook.changeBookStatus();
         displayBooks(myLibrary);
 
+    })
+    closeCover.addEventListener("click", () => {
+        bookCover.remove(); 
+        bookInfoOriginal.style.opacity = "1"; 
     })
     mainContentArea.appendChild(bookCover);
 
