@@ -40,13 +40,13 @@ const myLibrary = [
     new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
     new Book("Harry Potter", "J.K. Rolling", 556, "read"),
     new Book("Bauhau", "Magalena Droost", 356, "read"),
-    new Book("Dieter Rams", "Klaus Klmp", 322, "not-read"),
+    new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
     new Book("HarryPotter", "J.K. Rlling", 556, "read")
 ];
 
 
 // Fetching Data From HTML
-const mainContentArea = document.querySelector(".main-content-area"); 
+const mainContentArea = document.querySelector(".main-content-area");
 const library = document.querySelector(".library");
 const dialog = document.querySelector("#dialog");
 const showModalButton = document.getElementById("showModal");
@@ -80,9 +80,9 @@ function displayBooks(myLibrary) {
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") -> void
 function createBookSpine(book) {
 
-    // This is the book spine, has all the info written on it
     const bookSpine = document.createElement("div");
-    bookSpine.classList.add ("book-info", "spine");
+    bookSpine.classList.add("book-info-spine");
+
     // Creates a specific div for every property of the book, title, author ... 
     Object.keys(book).forEach(key => {
 
@@ -92,61 +92,70 @@ function createBookSpine(book) {
         bookSpine.appendChild(property);
 
     });
-    //displays delete and status-toggle buttons
-    bookSpine.addEventListener("click", () => {
-        bookSpine.style.opacity = "0.1";
-        createBookCover(book); 
 
-    })
+    // Handles the clicks on a Book spine
+    bookSpine.addEventListener("click", (event) => {
+
+        removePreviousBookCover();
+        if (event.target.classList.contains("book-info-spine")) {
+            showBookCover(event.target, book);
+        }
+
+    });
     return bookSpine;
 
 }
 
+
 // Creats a cover for a Book.
-// Book div -> div
+// div (void)-> div
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") div -> void
 // Almost the same function as the createBookSpine but creates a full cover to display
-function createBookCover(book) {
+function createBookCover(bookSpine, thisBook) {
 
-    // This is the book cover, has exactly the same information plus a button and a toggle. 
     const bookCover = document.createElement("div");
-    bookCover.classList.add("cover"); 
-    //Fetch the Book info
-    const bookInfoOriginal = document.querySelector(".book-info"); 
-    // Deep-clone the div 
+    bookCover.classList.add("cover");
+
+    const bookInfoOriginal = bookSpine;
     const bookInfoClone = bookInfoOriginal.cloneNode(true);
-    bookInfoClone.classList.remove(".book-info"); 
-    // Now the cover has the same information as the spine. 
-    bookCover.appendChild(bookInfoClone); 
-    // Delete button to remove a Book from the library
+
+    bookInfoClone.classList.remove("book-info-spine");
+    bookInfoClone.classList.add("book-info-cover");
+
+    bookCover.appendChild(bookInfoClone);
+
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete");
     deleteButton.textContent = "Remove";
     bookCover.appendChild(deleteButton);
-    // A toggle switch to change the status of a Book to read/not-read
+
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
     statusToggle.classList.add("hidden");
     bookCover.appendChild(statusToggle);
-    // Handle Book removal
+
     deleteButton.addEventListener("click", () => {
 
-        removeBook(book);
-        bookSpine.remove();
+        removeBook(thisBook);
+        bookCover.remove();
 
+        0
     });
     statusToggle.addEventListener("click", () => {
 
-        book.changeBookStatus();
+        thisBook.changeBookStatus();
         displayBooks(myLibrary);
 
     })
-    mainContentArea.appendChild(bookCover); 
-    
+    mainContentArea.appendChild(bookCover);
+
 }
 
 
 // -------------------------------------------------- Interactions  -------------------------------------------------- //
+
+
+
 
 
 // Show the dialog to add a new book
@@ -241,10 +250,34 @@ function removeBook(book) {
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") -> 1 
 function findIndexOfBook(book) {
 
-    const index = myLibrary.findIndex(b => b.title === book.title &&
+    return myLibrary.findIndex(b =>
+        b.title === book.title &&
         b.author === b.author &&
         b.pages === book.pages &&
         b.status === book.status);
-    return index;
 
 };
+
+
+// Shows a Book cover upon clicking 
+// div -> div
+// ??? 
+function showBookCover(bookSpine, thisBook) {
+
+    bookSpine.style.opacity = "0.1";
+    createBookCover(bookSpine, thisBook);
+
+}
+
+// Removes the existing Book Cover 
+// void -> void
+// ???
+function removePreviousBookCover() {
+
+    const cover = document.querySelector(".cover");
+    if (cover) {
+        cover.parentNode.removeChild(cover);
+    }
+
+}
+
