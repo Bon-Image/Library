@@ -147,18 +147,24 @@ function createBookCover(bookSpine, thisBook) {
         removeBook(thisBook);
         bookCover.remove();
 
-        0
     });
+
     statusToggle.addEventListener("click", () => {
 
-        thisBook.changeBookStatus();
+        const updatedBook = updateBook(thisBook); 
+        removePreviousBookCover(); 
+        showBookCover(updatedBook, thisBook); 
         displayBooks(myLibrary);
 
-    })
+    }); 
+
     closeCover.addEventListener("click", () => {
+
         bookCover.remove(); 
         bookInfoOriginal.style.opacity = "1"; 
+
     })
+
     mainContentArea.appendChild(bookCover);
 
 }
@@ -301,4 +307,12 @@ function removeStyle(booksSpine) {
     booksSpine.classList.remove("book-info-spine"); 
     booksSpine.style.opacity = "1"; 
 
+}
+
+// Updates a Book 
+// Book -> div
+// ???
+function updateBook(book) {
+    book.changeBookStatus(); 
+    return createBookSpine(book); 
 }
