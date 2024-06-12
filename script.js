@@ -119,7 +119,8 @@ function createBookCover(bookSpine, thisBook) {
     const bookInfoOriginal = bookSpine;
     const bookInfoClone = bookInfoOriginal.cloneNode(true);
 
-    bookInfoClone.classList.remove("book-info-spine");
+    removeStyle(bookInfoClone); 
+    //bookInfoClone.classList.remove("book-info-spine");
     bookInfoClone.classList.add("book-info-cover");
 
     bookCover.appendChild(bookInfoClone);
@@ -284,3 +285,13 @@ function removePreviousBookCover() {
 
 }
 
+
+// Removes inhertited style from a Book spine. 
+// div -> div
+//???
+function removeStyle(booksSpine) {
+
+    booksSpine.classList.remove("book-info-spine"); 
+    booksSpine.style.opacity = "1"; 
+
+}
