@@ -7,20 +7,90 @@
      --gap: 20px;
      --book-text-color: #cbd5e1;
      --margin: 80px;
+     --spine-width: 50px;
+     --spine-height: 400px;
 
+ }
+
+ body {
+     display: grid;
+     grid-template-columns: 1fr;
+     grid-template-rows: 1fr 5fr;
+ }
+
+
+
+ header {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     background-color: #A6A498;
+ }
+
+ #showModal {
+     height: 100px;
+     width: 300px;
+     position: relative;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font: 1.5rem sans-serif;
+     cursor: pointer;
+     will-change: transform;
+     margin: 10px;
+ }
+
+ #showModal::before,
+ #showModal::after {
+     position: absolute;
+     top: 0;
+     left: 0;
+     content: '';
+     display: block;
+     background-color: #595952;
+     transition: all 250ms ease-in-out;
+ }
+
+ #showModal::before {
+     width: 2px;
+     height: 100px;
+     box-shadow: 298px 0 #595952;
+ }
+
+ #showModal::after {
+     height: 2px;
+     width: 300px;
+     box-shadow: 0 98px #595952;
+ }
+
+ #showModal:hover::before {
+     left: -10px;
+     box-shadow: 318px 0 #595952;
+ }
+
+ #showModal:hover::after {
+     top: -10px;
+     box-shadow: 0 118px #595952;
  }
 
  .main-content-area {
      height: 100vh;
      display: grid;
-     background-color: #171717;
+     background-color: #D9D6C7;
      grid-template-columns: 1fr 1fr;
+ }
+
+ .frame {
+     border: solid white;
+     border-radius: 20px;
+     margin: var(--gap);
  }
 
  .library {
      display: grid;
-     grid-template-columns: repeat(auto-fit, 50px);
-     grid-auto-rows: 400px;
+     grid-template-columns: repeat(auto-fit, var(--spine-width));
+     grid-auto-rows: var(--spine-height);
      gap: var(--gap);
      margin: var(--margin)
  }
@@ -30,10 +100,40 @@
      flex-direction: column;
      align-items: center;
      justify-content: center;
-     background-color: aqua;
-     height: 50vh;
+     background-color: #A6A498;
+     height: var(--spine-height);
      margin: var(--margin);
+     animation-name: appear;
+     animation-duration: 3s;
+     color: var(--book-text-color);
 
+ }
+
+ @keyframes appear {
+     from {
+         opacity: 0;
+     }
+
+     to {
+         opacity: 1;
+     }
+ }
+
+
+ .book-info-cover {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     gap: var(--gap);
+ }
+
+ .control-panel {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     width: 50%;
+     margin-top: 25%;
  }
 
  .book-info-spine {
@@ -42,8 +142,6 @@
      justify-content: space-around;
      align-items: center;
      color: var(--book-text-color);
-     background-color: #164e63;
+     background-color: #595952;
      writing-mode: vertical-rl;
  }
-
- .book-info-cover {}

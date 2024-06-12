@@ -124,15 +124,19 @@ function createBookCover(bookSpine, thisBook) {
 
     bookCover.appendChild(bookInfoClone);
 
+    const controlPanel = document.createElement("div"); 
+    controlPanel.classList.add("control-panel"); 
+    bookCover.appendChild(controlPanel); 
+
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete");
     deleteButton.textContent = "Remove";
-    bookCover.appendChild(deleteButton);
+    controlPanel.appendChild(deleteButton);
 
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
     statusToggle.classList.add("hidden");
-    bookCover.appendChild(statusToggle);
+    controlPanel.appendChild(statusToggle);
 
     deleteButton.addEventListener("click", () => {
 
@@ -185,7 +189,6 @@ form.addEventListener("submit", (event) => {
 // [input#title, input#author, input#pages, etc.] -> ["Bauhaus", "Magdalena Droost", 356, "read"]
 function extractBookInfo(elements) {
 
-    console.log(elements);
     let bookInfo = [];
     for (let i = 0; i < elements.length; i++) {
         if (elements[i].tagName != "BUTTON") { // we don't need infomation about sumbit and close buttons 
@@ -193,7 +196,7 @@ function extractBookInfo(elements) {
         }
     }
     return new Book(bookInfo[0], bookInfo[1], bookInfo[2], bookInfo[3]);
-
+s
 }
 
 
