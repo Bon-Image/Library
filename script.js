@@ -128,9 +128,7 @@ function createBookCover(bookSpine, thisBook) {
     controlPanel.classList.add("control-panel"); 
     bookCover.appendChild(controlPanel); 
 
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete");
-    deleteButton.textContent = "Remove";
+    const deleteButton = createButton(["delete", "pushable"], ["front"], "Remove");
     controlPanel.appendChild(deleteButton);
 
     const statusToggle = document.createElement("input");
@@ -138,9 +136,8 @@ function createBookCover(bookSpine, thisBook) {
     statusToggle.classList.add("hidden");
     controlPanel.appendChild(statusToggle);
 
-    const closeCover = document.createElement("button"); 
-    closeCover.textContent = "Close Cover"; 
-    controlPanel.appendChild(closeCover); 
+    const closeCoverButton = createButton(["pushable"], ["front"], "Close Me"); 
+    controlPanel.appendChild(closeCoverButton); 
 
     deleteButton.addEventListener("click", () => {
 
@@ -158,7 +155,7 @@ function createBookCover(bookSpine, thisBook) {
 
     }); 
 
-    closeCover.addEventListener("click", () => {
+    closeCoverButton.addEventListener("click", () => {
 
         bookCover.remove(); 
         bookInfoOriginal.style.opacity = "1"; 
@@ -315,4 +312,23 @@ function removeStyle(booksSpine) {
 function updateBook(book) {
     book.changeBookStatus(); 
     return createBookSpine(book); 
+}
+
+// Creates a pushable button
+// listOfString listOfString string -> button 
+// ???
+// First Array : Button's class list  - Second Array: Span's class list (inside the button)  - Third Argument: Button's text
+function createButton (buttonClassList, spanClassList, buttonText) {
+
+    const button = document.createElement("button"); 
+    button.classList.add(buttonClassList); 
+
+    const span = document.createElement("span"); 
+    span.classList.add(spanClassList); 
+    span.textContent = buttonText
+
+    button.appendChild(span); 
+
+    return button; 
+    
 }
