@@ -111,7 +111,7 @@ function createBookSpine(book) {
 // div (void)-> div
 // new Book("Bauhaus", "Magdalena Droost", 356, "read") div -> void
 // Almost the same function as the createBookSpine but creates a full cover to display
-function createBookCover(bookSpine, thisBook) {
+function createBookCover(bookSpine, book) {
 
     const bookCover = document.createElement("div");
     bookCover.classList.add("cover");
@@ -119,46 +119,47 @@ function createBookCover(bookSpine, thisBook) {
     const bookInfoOriginal = bookSpine;
     const bookInfoClone = bookInfoOriginal.cloneNode(true);
 
-    removeStyle(bookInfoClone); 
+    removeStyle(bookInfoClone);
     bookInfoClone.classList.add("book-info-cover");
+
 
     bookCover.appendChild(bookInfoClone);
 
-    const controlPanel = document.createElement("div"); 
-    controlPanel.classList.add("control-panel"); 
-    bookCover.appendChild(controlPanel); 
+    const controlPanel = document.createElement("div");
+    controlPanel.classList.add("control-panel");
+    bookCover.appendChild(controlPanel);
 
     const deleteButton = createButton(["delete", "pushable"], ["front"], "Remove");
     controlPanel.appendChild(deleteButton);
 
     const statusToggle = document.createElement("input");
     statusToggle.type = "checkbox";
-    statusToggle.classList.add("hidden");
+    statusToggle.classList.add("slider");
     controlPanel.appendChild(statusToggle);
 
-    const closeCoverButton = createButton(["pushable"], ["front"], "Close Me"); 
-    controlPanel.appendChild(closeCoverButton); 
+    const closeCoverButton = createButton(["pushable"], ["front"], "Close Me");
+    controlPanel.appendChild(closeCoverButton);
 
     deleteButton.addEventListener("click", () => {
 
-        removeBook(thisBook);
+        removeBook(book);
         bookCover.remove();
 
     });
 
     statusToggle.addEventListener("click", () => {
 
-        const updatedBook = updateBook(thisBook); 
-        removePreviousBookCover(); 
-        showBookCover(updatedBook, thisBook); 
+        const updatedBook = updateBook(book);
+        removePreviousBookCover();
+        showBookCover(updatedBook, book);
         displayBooks(myLibrary);
 
-    }); 
+    });
 
     closeCoverButton.addEventListener("click", () => {
 
-        bookCover.remove(); 
-        bookInfoOriginal.style.opacity = "1"; 
+        bookCover.remove();
+        bookInfoOriginal.style.opacity = "1";
 
     })
 
@@ -207,7 +208,7 @@ function extractBookInfo(elements) {
         }
     }
     return new Book(bookInfo[0], bookInfo[1], bookInfo[2], bookInfo[3]);
-s
+    s
 }
 
 
@@ -277,6 +278,11 @@ function findIndexOfBook(book) {
 // div -> div
 // ??? 
 function showBookCover(bookSpine, thisBook) {
+    
+    const allBookSpines = document.querySelectorAll(".book-info-spine");
+    allBookSpines.forEach(spine => {
+        spine.style.opacity = "1";
+    });
 
     bookSpine.style.opacity = "0.1";
     createBookCover(bookSpine, thisBook);
@@ -291,6 +297,7 @@ function removePreviousBookCover() {
     const cover = document.querySelector(".cover");
     if (cover) {
         cover.parentNode.removeChild(cover);
+
     }
 
 }
@@ -301,8 +308,8 @@ function removePreviousBookCover() {
 //???
 function removeStyle(booksSpine) {
 
-    booksSpine.classList.remove("book-info-spine"); 
-    booksSpine.style.opacity = "1"; 
+    booksSpine.classList.remove("book-info-spine");
+    booksSpine.style.opacity = "1";
 
 }
 
@@ -310,25 +317,25 @@ function removeStyle(booksSpine) {
 // Book -> div
 // ???
 function updateBook(book) {
-    book.changeBookStatus(); 
-    return createBookSpine(book); 
+    book.changeBookStatus();
+    return createBookSpine(book);
 }
 
 // Creates a pushable button
 // listOfString listOfString string -> button 
 // ???
 // First Array : Button's class list  - Second Array: Span's class list (inside the button)  - Third Argument: Button's text
-function createButton (buttonClassList, spanClassList, buttonText) {
+function createButton(buttonClassList, spanClassList, buttonText) {
 
-    const button = document.createElement("button"); 
-    button.classList.add(buttonClassList); 
+    const button = document.createElement("button");
+    button.classList.add(...buttonClassList);
 
-    const span = document.createElement("span"); 
-    span.classList.add(spanClassList); 
+    const span = document.createElement("span");
+    span.classList.add(...spanClassList);
     span.textContent = buttonText
 
-    button.appendChild(span); 
+    button.appendChild(span);
 
-    return button; 
-    
+    return button;
+
 }
