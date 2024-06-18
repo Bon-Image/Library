@@ -41,7 +41,19 @@ const myLibrary = [
     new Book("Harry Potter", "J.K. Rolling", 556, "read"),
     new Book("Bauhau", "Magalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
-    new Book("HarryPotter", "J.K. Rlling", 556, "read")
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
+    new Book("Bauhaus", "Magdalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
+    new Book("Harry Potter", "J.K. Rolling", 556, "read"),
+    new Book("Bauhau", "Magalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
+    new Book("Bauhaus", "Magdalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
+    new Book("Harry Potter", "J.K. Rolling", 556, "read"),
+    new Book("Bauhau", "Magalena Droost", 356, "read"),
+    new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
 ];
 
 
@@ -53,6 +65,7 @@ const showModalButton = document.getElementById("showModal");
 const form = document.getElementById("info");
 const addButton = document.querySelector("#add");
 const closeButton = document.querySelector("#add + button");
+
 
 
 // Initialize display
@@ -132,10 +145,8 @@ function createBookCover(bookSpine, book) {
     const deleteButton = createButton(["delete", "pushable"], ["front"], "Remove");
     controlPanel.appendChild(deleteButton);
 
-    const statusToggle = document.createElement("input");
-    statusToggle.type = "checkbox";
-    statusToggle.classList.add("slider");
-    controlPanel.appendChild(statusToggle);
+    const statusButton = createButton(["status", "pushable"], ["front"], "Update Reading Status");
+    controlPanel.appendChild(statusButton);
 
     const closeCoverButton = createButton(["pushable"], ["front"], "Close Me");
     controlPanel.appendChild(closeCoverButton);
@@ -147,7 +158,7 @@ function createBookCover(bookSpine, book) {
 
     });
 
-    statusToggle.addEventListener("click", () => {
+    statusButton.addEventListener("click", () => {
 
         const updatedBook = updateBook(book);
         removePreviousBookCover();
@@ -176,10 +187,17 @@ function createBookCover(bookSpine, book) {
 
 // Show the dialog to add a new book
 showModalButton.addEventListener("click", () => {
-
+    mainContentArea.style.opacity = "0.01"; 
     dialog.showModal();
 
 });
+
+
+document.addEventListener("keydown", (event)=> {
+    if(event.key === "Escape" && dialog.open) {
+        mainContentArea.style.opacity = "1"; 
+    }
+})
 
 
 // Handle form submission
@@ -192,6 +210,8 @@ form.addEventListener("submit", (event) => {
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
+    mainContentArea.style.opacity = "1"; 
+
 
 })
 
@@ -227,6 +247,8 @@ function addBookToLibrary(newBook) {
 closeButton.addEventListener("click", () => {
 
     dialog.close();
+    mainContentArea.style.opacity = "1"; 
+
 
 });
 
