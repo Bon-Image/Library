@@ -140,12 +140,14 @@ select {
     align-items: center;
     justify-content: space-around;
     height: var(--spine-height);
+    min-height: 500px;
+    min-width: 500px; 
     margin: var(--margin);
     animation-name: appear;
     animation-duration: 3s;
     color: var(--book-text-color);
     border-radius: var(--border-radius);
-    background: linear-gradient(180deg, #14274e 73%, rgba(20,39,78,0.5648459212786677) 100%);;
+    background: linear-gradient(180deg, #14274e 73%, rgba(20,39,78,0.5648459212786677) 100%);
 
 }
 
@@ -171,25 +173,26 @@ select {
 .control-panel {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
-    margin-top: 25%;
+    margin-top: 25px;
+    gap: 10px;
 }
 
 
 .cover .title {
-    font-size: 48pt;
+    font-size: 3em;
     font-weight: 500;
 }
 
 .cover .author {
-    font-size: 32pt;
+    font-size: 2em;
     font-weight: 300;
 }
 
 .cover .pages {
 
-    font-size: 20pt;
+    font-size: 1em;
     font-weight: 100;
 }
 
@@ -229,4 +232,14 @@ footer {
 
 .pushable:active .front {
     transform: translateY(-2px);
+}
+
+.cover .front {
+    display: block;
+    padding: 6px 21px;
+    border-radius: 6px;
+    background: #b252e2;
+    color: white;
+    transform: translateY(-6px);
+    font-size: 1em;
 }
