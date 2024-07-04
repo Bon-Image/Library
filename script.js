@@ -7,31 +7,42 @@
 // -------------------------------------------------- Constructor - Initializers - Import Variables -------------------------------------------------- //
 
 
-// Book Constructor
-// String String Integer String -> Book
-// "Bauhaus"  "Magdalena Droost"  356  "read" -> Book
-// Status field takes two values: read and not-read 
-function Book(title, author, pages, status) {
+class Book {
 
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.status = status;
+    constructor(title, author, pages, bookStatus) {
+
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.bookStatus = bookStatus;
+
+    }
+
+    changeBookStatus() {
+
+        if (this.bookStatus === "read") {
+            this.bookStatus = "not-read";
+        } else {
+            this.bookStatus = "read";
+        }
+
+    };
+
+
 
 }
+
+
+
+
+
+
+
 
 // Modifies the status of a Book
 //  -> void 
 // Book.changeBookStatus()
-Book.prototype.changeBookStatus = function () {
 
-    if (this.status === "read") {
-        this.status = "not-read";
-    } else {
-        this.status = "read";
-    }
-
-};
 
 
 // Sample Library Data
@@ -41,19 +52,19 @@ const myLibrary = [
     new Book("Harry Potter", "J.K. Rolling", 556, "read"),
     new Book("Bauhau", "Magalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
-    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"),
     new Book("Bauhaus", "Magdalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
     new Book("Harry Potter", "J.K. Rolling", 556, "read"),
     new Book("Bauhau", "Magalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
-    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"),
     new Book("Bauhaus", "Magdalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klemp", 322, "not-read"),
     new Book("Harry Potter", "J.K. Rolling", 556, "read"),
     new Book("Bauhau", "Magalena Droost", 356, "read"),
     new Book("Dieter Rams", "Klaus Klap", 322, "not-read"),
-    new Book("HarryPotter", "J.K. Rlling", 556, "read"), 
+    new Book("HarryPotter", "J.K. Rlling", 556, "read"),
 ];
 
 
@@ -187,15 +198,15 @@ function createBookCover(bookSpine, book) {
 
 // Show the dialog to add a new book
 showModalButton.addEventListener("click", () => {
-    mainContentArea.style.opacity = "0.01"; 
+    mainContentArea.style.opacity = "0.01";
     dialog.showModal();
 
 });
 
 
-document.addEventListener("keydown", (event)=> {
-    if(event.key === "Escape" && dialog.open) {
-        mainContentArea.style.opacity = "1"; 
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && dialog.open) {
+        mainContentArea.style.opacity = "1";
     }
 })
 
@@ -210,7 +221,7 @@ form.addEventListener("submit", (event) => {
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
-    mainContentArea.style.opacity = "1"; 
+    mainContentArea.style.opacity = "1";
 
 
 })
@@ -247,7 +258,7 @@ function addBookToLibrary(newBook) {
 closeButton.addEventListener("click", () => {
 
     dialog.close();
-    mainContentArea.style.opacity = "1"; 
+    mainContentArea.style.opacity = "1";
 
 
 });
@@ -263,7 +274,7 @@ closeButton.addEventListener("click", () => {
 function isDuplicate(newBook) {
 
     return myLibrary.some(book => book.title === newBook.title && book.author === newBook.author &&
-        book.pages === newBook.pages && book.status === newBook.status);
+        book.pages === newBook.pages && book.bookStatus === newBook.status);
 
 }
 
@@ -291,7 +302,7 @@ function findIndexOfBook(book) {
         b.title === book.title &&
         b.author === b.author &&
         b.pages === book.pages &&
-        b.status === book.status);
+        b.bookStatus === book.status);
 
 };
 
@@ -300,7 +311,7 @@ function findIndexOfBook(book) {
 // div -> div
 // ??? 
 function showBookCover(bookSpine, thisBook) {
-    
+
     const allBookSpines = document.querySelectorAll(".book-info-spine");
     allBookSpines.forEach(spine => {
         spine.style.opacity = "1";
